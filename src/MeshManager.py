@@ -1,10 +1,10 @@
-import ShapeSlicer 
+import Conception.Berserker.src.ShapeSlicer as ShapeSlicer 
 import random
 import copy as cp
 import Physics.Space.slicingTool as slt 
 import Physics.Space.GeometricMesh as GeometricMesh
 from itertools import product
-import transformation
+import Conception.Berserker.src.transformation as transformation
 from tqdm import tqdm
 import pickle
 

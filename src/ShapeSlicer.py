@@ -16,7 +16,7 @@ from Physics.Space.GeometryManager               import Caracteristic
 import Physics.Space.slicingTool                  as slt
 import Physics.Space.GeometricMesh                as GeometricMesh
 import random
-import transformation
+import Conception.Berserker.src.transformation as transformation
 
 class BoundingBox:
     def __init__(self,shape:CloseGeometry):

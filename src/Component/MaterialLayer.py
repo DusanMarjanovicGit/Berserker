@@ -1,5 +1,9 @@
 import Conception.Berserker.src.Component.Observable as Observable
-class MaterialLayer(Observable):
+import Conception.Berserker.src.ShapeSlicer as ShapeSlicer
+from Conception.Berserker.src.SectionSetter import SectionSetter 
+from Conception.Berserker.src.Component.WindowHeterogeneity import WindowHeterogeneity
+
+class MaterialLayer(Observable.Observable):
     """
     Classe permettant de gerer par couche axiale les proprietes des differents materiaux mis en jeu.
     Attribut:
@@ -11,7 +15,7 @@ class MaterialLayer(Observable):
     - thickness       (float) : epaisseur de la couche
     """
     def __init__(self, materialName:str,zMin:float,thickness:float,xmin:float,length:float,thetaMin:float,dTheta:float,symetric=False):
-        Observable.__init__(self)
+        Observable.Observable.__init__(self)
         #if thickness <= 0:raise ValueError("L'epaisseur doit etre une valeur positive.")
         self.materialName        = materialName
         # axial Data
@@ -70,9 +74,6 @@ class MaterialLayer(Observable):
         """
         xBounds,yBounds,axialBounds = self._getBounds()
         _x,_y,_z =[ self.getAxisLength(iele)  if ele==0 else ele for iele,ele in enumerate([e_x,e_y,e_z]) ]
-        #if e_x == 0 : e_x = self.getAxisLength(0)
-        #if e_y==0   : e_y = self.getAxisLength(1)
-        #if e_z==0   : e_z = self.getAxisLength(2)
         heterogeneity = WindowHeterogeneity( [self.xmin,round(self.xmin+_x,6)]
                                             ,[self.thetaMin,round(yBounds[0]+_y,6)]
                                             ,[self.zMin,round(self.zMin+_z,6)]
@@ -81,10 +82,6 @@ class MaterialLayer(Observable):
         if heterogeneity not in self.heterogeneities :  self.heterogeneities.append( heterogeneity )
         if self.symetric:
             if self.zMax - e_z <= self.zMin:raise ValueError("Symmetric heterogeneity exceeds layer bounds.")
-            #if e_z !=0  : _z = -_z
-            #if e_y != 0 : _y = -_y
-            #print(_y,_z)
-
             heterogeneity= WindowHeterogeneity(
                                               [self.xmin,round(self.xmin+_x,6)]
                                               ,[self.thetaMin,round(yBounds[1]-e_y,6)]
@@ -104,9 +101,8 @@ class MaterialLayer(Observable):
         """Mark the layer as not ready and notify observers."""
         self.is_ready = False
         self.masterHeterogeneity=None
-        self.notify_observers(materialName=self.materialName, status="not_ready")
+        self.notifyObservers(materialName=self.materialName, status="not_ready")
     def buildMPOSet(self,sectionSetter:SectionSetter):
-        #for hetero in WindowHeterogeneity.resolve_overlaps(self.getHeterogeneities()):
         for hetero in WindowHeterogeneity.build_hierarchy(self.getHeterogeneities()):
             print(hetero.e_x,hetero.e_y,hetero.e_z,hetero.macroRegionName)
 

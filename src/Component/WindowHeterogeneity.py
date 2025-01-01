@@ -95,7 +95,6 @@ class WindowHeterogeneity:
 
         return resolve
 
-    def __repr__(self) : return f"Xbounds: {self.e_x} , YBounds = {self.e_y} , ZBounds = {self.e_z} , xs = {self.macroRegionName}
-  "
+    def __repr__(self) : return f"Xbounds: {self.e_x} , YBounds = {self.e_y} , ZBounds = {self.e_z} , xs = {self.macroRegionName}"
 
 

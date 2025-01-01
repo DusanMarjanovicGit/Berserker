@@ -1,11 +1,11 @@
-import ShapeSlicer
+import Conception.Berserker.src.SectionSetter as ShapeSlicer
 import random
 import copy as cp 
 import Physics.Space.slicingTool as slt 
 import Physics.Space.GeometricMesh as GeometricMesh 
-import transformation 
+import Conception.Berserker.src.transformation as transformation 
 from tqdm import tqdm
-import MeshManager
+import Conception.Berserker.src.MeshManager as MeshManager
 import pickle
 class materialSetter:
     def __init__(self,topShape,lDirectives:list):

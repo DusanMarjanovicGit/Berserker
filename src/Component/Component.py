@@ -314,7 +314,7 @@ class MaterialLayer(Observable):
         """Mark the layer as not ready and notify observers."""
         self.is_ready = False
         self.masterHeterogeneity=None
-        self.notify_observers(materialName=self.materialName, status="not_ready")
+        self.notifyObservers(materialName=self.materialName, status="not_ready")
     def buildMPOSet(self,sectionSetter:SectionSetter):
         #for hetero in WindowHeterogeneity.resolve_overlaps(self.getHeterogeneities()):
         for hetero in WindowHeterogeneity.build_hierarchy(self.getHeterogeneities()):

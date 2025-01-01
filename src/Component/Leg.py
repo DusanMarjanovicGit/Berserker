@@ -1,6 +1,6 @@
 import Conception.Berserker.src.SectionSetter as SectionSetter
-import Conception.Berserker.src.Component.MaterialLayer  as MaterialLayer
-import Conception.Berserker.src.Component.WindowHeterogeneity as WindowHeterogeneity 
+from Conception.Berserker.src.Component.MaterialLayer import MaterialLayer
+from Conception.Berserker.src.Component.WindowHeterogeneity import WindowHeterogeneity 
 class Leg:
     """
     Classe permettant de gerer les branches chaudes et froides d'un systeme de boucles
@@ -39,7 +39,7 @@ class Leg:
         self.pipe      = MaterialLayer("SEL" ,zMin                      , self.diameter , self.xmin,self.length,minTheta,dTheta,True)
         for ele in ["cladMinus","cladPlus","upperClad","lowerClad"] : setattr(self,ele, MaterialLayer("CLAD",None,None,self.xmin,self.length,None,None))
         for ele in ["reflMinus","reflPlus","upperRefl","lowerRefl"] : setattr(self,ele, MaterialLayer("REFL",None,None,self.xmin,self.length,None,None))
-        self.pipe.add_observer(self) ; self.pipe.set_ready()
+        self.pipe.addObserver(self) ; self.pipe.set_ready()
         self.PIPE , self.CLAD , self.REFL = "PIPE","CLAD","REFL"
         self.UPPER , self.LOWER , self.MINUS , self.PLUS = "UPPER","LOWER","MINUS","PLUS"
         self.layerMap ={}
@@ -55,9 +55,9 @@ class Leg:
         self.cladMinus.setYdata(minTheta,-dTheta) # theta inferieur a thetaMin du sel
 
         for layer in [self.lowerClad,self.upperClad,self.cladMinus,self.cladPlus] :
-            layer.add_observer(self)
+            layer.addObserver(self)
             layer.set_ready()
-        if self.is_complete() : self.updateLayers()
+        if self.isComplete() : self.updateLayers()
 
     def setRefl(self , dTheta :float ,e_refl:float):
         for ele in [self.upperClad,self.lowerClad,self.cladMinus,self.cladPlus] :
@@ -72,9 +72,9 @@ class Leg:
         self.reflPlus.setYdata(   maxTheta, dTheta  )        # theta superieur a thetaMax de la gaine
         self.reflMinus.setYdata(  minTheta,-dTheta  )        # theta inferieur a thetaMin de la gaine
         for layer in [self.upperRefl,self.lowerRefl,self.reflMinus,self.reflPlus] :
-            layer.add_observer(self)
+            layer.addObserver(self)
             layer.set_ready()
-        if self.is_complete() : self.updateLayers()
+        if self.isComplete() : self.updateLayers()
 
 
     def updateLayers(self):
@@ -94,8 +94,10 @@ class Leg:
                                       }
 
                        }
+    def update(self):
+        pass 
 
-    def is_complete(self):
+    def isComplete(self):
         """Check if all clad and reflector layers are ready."""
         clad_ready = all(
             getattr(self, attr).is_ready
